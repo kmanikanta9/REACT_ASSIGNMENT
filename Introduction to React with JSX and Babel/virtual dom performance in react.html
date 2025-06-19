@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Debugging</title>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+
+  <body>
+    <h1 id="title">Title</h1>
+    <div id="root">Hello from Dom</div>
+    <button id="root1">Button for change</button>
+
+  </body>
+</html>
+<script type="text/babel">
+  const { useState } = React;
+  let button = document.getElementById("root1");
+  let Count = 0;
+  button.addEventListener("click", () => {
+    let div1 = document.getElementById("title");
+    div1.innerText = "Change title  from Dom";
+    Count++;
+  });
+  let counter = document.createElement("h1");
+  counter.innerText = Count;
+  function Counters() {
+    const [count, setCount] = useState(0);
+    function handleClick(){
+        setCount(count+1)
+        let titleReact=document.getElementById("title")
+        titleReact.innerText="Change Title from React"
+
+    }
+    
+    return (
+        
+      <div>
+        <h2>count:{count}</h2>
+        <button onClick={handleClick}>Change React Title</button>
+        
+        
+      </div>
+    );
+  }
+
+  function App() {
+    return <Counters/>
+  }
+  let root = ReactDOM.createRoot(document.getElementById("root")).render(
+    <App />
+  );
+</script>

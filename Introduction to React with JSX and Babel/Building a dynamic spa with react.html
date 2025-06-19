@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Debugging</title>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <style>
+    #button{
+        display: flex;
+        justify-content: space-around;
+        margin: 50px;
+    }
+    #button>button{
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: rgb(98, 98, 220);
+        font-size: large;
+    }
+    #h1{
+        color: brown;
+        text-align: center;
+    }
+  </style>
+
+  <body>
+    <div id="root">Hello from Dom</div>
+  </body>
+</html>
+<script type="text/babel">
+  const { useState } = React;
+
+  function App() {
+    const [change, setChange] = useState("This is Home");
+
+    return (
+      <div>
+        <div id="button">
+          <button onClick={() => setChange("Welcome to Home!")}>Home</button>
+          <button onClick={() => setChange("About Us")}>About</button>
+          <button onClick={() => setChange("Contact Us!")}>Contact</button>
+        </div>
+        <h1 style={{color:"brown",textAlign:"center"}}>{change}</h1>
+      </div>
+    );
+  }
+  let root = ReactDOM.createRoot(document.getElementById("root")).render(
+    <App />
+  );
+</script>

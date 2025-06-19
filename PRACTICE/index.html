@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Debugging</title>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+
+  <body>
+    <div id="root">Hello from Dom</div>
+  </body>
+</html>
+<script type="text/babel">
+  const { useState } = React;
+  function FormSubmit() {
+    const [formData, setForm] = useState({
+      name: "",
+      age: "",
+      password: "",
+    });
+    function handleSumbit(e) {
+      e.preventDefault();
+      console.log(formData);
+      setForm({
+        name: "",
+        age: "",
+        password: "",
+      });
+    }
+
+    function handleChange(e) {
+      const {name,value} = e.target;
+      setForm({ ...formData, [name]: value });
+    //   console.log(formData)
+    }
+
+    return (
+
+        <form onSubmit={handleSumbit}>
+          <label>
+            Name:{" "}
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+            />
+          </label>
+          <br/>
+          <label>
+            Age:{" "}
+            <input
+              type="number"
+              name="age"
+              value={formData.age}
+              onChange={handleChange}
+            />
+          </label>
+          <br/>
+          <label>
+            password:{" "}
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+            />
+          </label>
+          <button type="submit">Submit</button>
+        </form>
+    );
+  }
+
+  function App() {
+    
+  }
+  let root = ReactDOM.createRoot(document.getElementById("root")).render(
+    <App />
+  );
+</script>

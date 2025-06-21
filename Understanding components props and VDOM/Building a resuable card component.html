@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Debugging</title>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+
+  <body>
+    <div id="root">Hello from Dom</div>
+  </body>
+</html>
+<script type="text/babel">
+  function Card({ title, children }) {
+    return (
+      <div>
+        <h1>{title}</h1>
+        <h2>{children}</h2>
+      </div>
+    );
+  }
+
+  function App() {
+    return(
+        <div>
+            <Card title="Title 1" children="Childeren 1" />
+             <Card title="Title 2" children="Childeren 2" />
+              <Card title="Title 3" children="Childeren 3" />
+            
+        </div>
+    )
+  }
+  let root = ReactDOM.createRoot(document.getElementById("root")).render(
+    <App />
+  );
+</script>

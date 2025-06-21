@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Building a compents and layout</title>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <style>
+    #first{
+      display: flex;
+      justify-content: space-around;
+    }
+    span{
+      position: absolute;
+      color: blueviolet;
+      font-weight: bold;
+      font-size: 30px;
+    }
+    #inside{
+      display: flex;
+      margin-top: 20px;
+      justify-content: space-around;
+    }
+    button{
+      background-color: blueviolet;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-size: 16px;
+
+    }
+  </style>
+
+  <body>
+    <div id="root">Hello from Dom</div>
+  </body>
+</html>
+<script type="text/babel">
+  function Display(){
+
+    return(
+    <div id="first">
+            <h1 id="right">The Right Plan for
+                          <span>Your Business</span>
+              </h1>
+            
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. At temporibus expedita dolorem vitae quas quae unde suscipit numquam. Eos cumque amet vitae est sapiente dolore ratione consequatur voluptatum placeat voluptatibus!</p>
+          </div>
+    )
+  }
+  function Layout({lists,title,price}) {
+    return (
+      <>
+        <div>
+          
+          <div id="outside">
+            <div id="inside">
+              <h2>{title}</h2>
+              <ul>
+                {lists.map((i,index)=>(
+                  <p key={index}>✅{i}</p>
+                ))}
+              </ul>
+              <h1>{price}</h1>
+              <button>Get Started</button>
+            </div>
+
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  function App() {
+    let list=["1lorem","Lorem ipsum dolor.","Monthly updates"]
+    return(
+      <>
+      <Display/>
+      <Layout title="Starter" lists={list} price="Free"/>
+      <Layout title="Lorem plus" lists={list} price="$32.00"/>
+      <Layout title="Lorem pro" lists={list} price="$50.00"/>
+      </>
+    )
+  }
+  let root = ReactDOM.createRoot(document.getElementById("root")).render(
+    <App />
+  );
+</script>

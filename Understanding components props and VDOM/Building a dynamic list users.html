@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Debugging</title>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+
+  <body>
+    <div id="root">Hello from Dom</div>
+  </body>
+</html>
+<script type="text/babel">
+    const {useState}=React;
+    function FormData(){
+        const[data,setData]=useState({
+            name:"",
+            email:"",
+            age:""
+        })
+        function handleSubmit(e){
+            e.preventDefault()
+            console.log(data)
+            setData({
+            name:"",
+            email:"",
+            age:""
+        })
+
+        }
+        function handleChange(e){
+            const{name,value}=e.target
+            setData({...data,[name]:value})
+        }
+
+        return(
+            <form onSubmit={handleSubmit}>
+                <label for="">Name:
+                    <input type="text" value={data.name} onChange={handleChange} name="name"/>
+                </label>
+                <label for="">Email:
+                    <input type="email" value={data.email} onChange={handleChange} name="email"/>
+                </label>
+                <label for="">Name:
+                    <input type="number" value={data.age} onChange={handleChange} name="age"/>
+                </label>
+                <button type="submit">Submit</button>
+            </form>
+
+        )
+
+    }
+
+  function App() {
+    return <FormData/>
+  }
+  let root = ReactDOM.createRoot(document.getElementById("root")).render(
+    <App />
+  );
+</script>

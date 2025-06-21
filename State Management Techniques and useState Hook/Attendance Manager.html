@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Attendance Manager</title>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+
+  <body>
+    <div id="root">Hello from Dom</div>
+  </body>
+</html>
+<script type="text/babel">
+    const {useState}=React;
+    function Attendance(){
+        const [student,setStudent]=useState([{id:1,name:"Mani",present:true},{id:2,name:"Aswarth",present:true},{id:3,name:"Anand",present:false},{id:4,name:"Umar",present:false},{id:5,name:"Sumanth",present:false}])
+        const [filterType,setFilterType]=useState("all")
+        function filtering(){
+            if(filterType=="present"){
+                return student.filter((s)=>s.present===true)
+            }
+            else if(filterType=="absent"){
+                return student.filter((s)=>s.present==false)
+            }
+            return student
+        } 
+        const filtered=filtering()
+        function toggleAttendance(id){
+            const updated=student.map((s)=>s.id==id?{...s,present:!s.present}:s)
+            setStudent(updated)
+        }
+
+        return(
+        <div>
+            <h2>Student Attendance</h2>
+            <div>
+                <button onClick={()=>setFilterType("all")}>All</button>
+                <button onClick={()=>setFilterType("present")}>Present</button>
+                <button onClick={()=>setFilterType("absent")}>Absent</button>
+            </div>
+            {filtered.map((s,i)=>(
+                <div>
+                    <p>{s.id}-{s.name}-
+                        <span style={{color:s.present?"green":"red"}}>{s.present?"Present":"Absent"}</span>
+                        <button onClick={()=>toggleAttendance(s.id)}>Mark {s.present?"Absent":"Present"}</button>
+                    </p>
+                </div>
+        ))}
+        </div>
+        )
+    }
+
+
+  function App() {
+    return <Attendance/>
+  }
+  let root = ReactDOM.createRoot(document.getElementById("root")).render(
+    <App />
+  );
+</script>

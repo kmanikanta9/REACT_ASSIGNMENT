@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Debugging</title>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+
+  <body>
+    <div id="root">Hello from Dom</div>
+  </body>
+</html>
+<script type="text/babel">
+    const {useState}=React;
+    function TaskManager(){
+        const [task,setTask]=useState({
+            title:"",
+            priority:"",
+            status:""
+        })
+        const[taskList,setTaskList]=useState([])
+        function handleChange(e){
+            const{name,value}=e.target;
+            setTask({...task,[name]:value})
+        }
+        function handleSubmit(e){
+            e.preventDefault()
+            console.log(task)
+            setTaskList([...taskList,task])
+            setTask({
+            title:"",
+            priority:"",
+            status:""
+        })
+        function handleClick(index){
+           const updateTask=taskList.map((item,i)=>{
+            if(i==index){
+                return{...item,status:item.status==="completed"?"notcompleted":"completed"}
+            }
+            return item
+           })
+           setTaskList(updateTask)
+        }
+        }
+        let filtered=taskList.map((item,i)=>{
+            return item.priority=="low"
+        })
+
+        return(
+            <>
+            <form onSubmit={handleSubmit}>
+                <label>
+                    <input type="text" name="title" value={task.title} onChange={handleChange}/>
+                </label>
+                <label >Priority:
+                    <select name="priority" id="" value={task.priority} onChange={handleChange}>
+                        <option value="select">Select Category</option>
+                        <option value="high">High</option>
+                        <option value="medium">Medium</option>
+                        <option value="low">Low</option>
+                    </select>
+                </label>
+                <label >Status:
+                    <select name="status" id="" value={task.status} onChange={handleChange}>
+                        <option value="select">Select Category</option>
+                        <option value="completed">Completed</option>
+                        <option value="notcompleted">Not completed</option>
+                        
+                    </select>
+                </label>
+                <button type="submit">Submit</button>
+            
+            </form>
+            <div>
+                <h3>Task Lists</h3>
+                {taskList.map((t,i)=>(
+                    <p key={i}>{t.title}-{t.priority} -
+                        <span style={{color:t.status==="completed"?"green":"red"}}>{t.status}</span>
+                        <button onClicked={()=>handleClick(i)}>Toggle Status</button></p>
+                ))}
+            </div>
+            
+            </>
+        )
+    }
+
+  function App() {
+    return <TaskManager/>
+  }
+  let root = ReactDOM.createRoot(document.getElementById("root")).render(
+    <App />
+  );
+</script>

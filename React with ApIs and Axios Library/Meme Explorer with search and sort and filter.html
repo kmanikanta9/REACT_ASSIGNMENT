@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meme Explorer</title>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  </head>
+  <style>
+    #data{
+        display: grid;
+        grid-template-columns: repeat(4,1fr);
+        gap: 15px;
+    }
+    #inside-data{
+        border: 1px solid;
+        text-align: center;
+    }
+  </style>
+  <body>
+    <div id="root">Hello from Dom</div>
+  </body>
+  
+</html>
+<script type="text/babel">
+  const { useState } = React;
+  function MemeExplorer() {
+    const [meme, setMeme] = useState([]);
+    const [fill, setFill] = useState("all");
+    const [s, setSort] = useState("all");
+    const [search, setSearch] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    async function fetchMeme() {
+      setLoading(true);
+      try {
+        let result = await axios.get("https://api.imgflip.com/get_memes");
+        setMeme(result.data.data.memes);
+        console.log(result.data.data.memes);
+        setLoading(false);
+      } catch (error) {
+        setError(error);
+        setLoading(false);
+      } finally {
+        setLoading(false);
+      }
+    }
+    const data = meme
+      .filter((item) => item.name.toLowerCase().includes(search.toLowerCase()))
+      .filter((item) => {
+        if (fill == "width") return item.width > 500;
+        if (fill == "height") return item.heigth > 500;
+        return true;
+      })
+      .sort((a, b) => {
+        if (s == "name") return a.name.localeCompare(b.name);
+        if (s == "width") return b.width - a.width;
+        return 0;
+      });
+
+    return (
+      <>
+        <div>
+          <button onClick={fetchMeme} style={{backgroundColor:"green"}}>Fetch Memes</button>
+        </div>
+        <div>
+          <label>
+            Search:{" "}
+            <input
+              type="text"
+              value={search}
+              name="search"
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </label>
+          <label>
+            Sort:
+            <select 
+              name="sort"
+              id=""
+              value={s}
+              onChange={(e) => setSort(e.target.value)}
+            >
+              <option value="all">Sort By</option>
+              <option value="name">By Name</option>
+              <option value="width">By Width</option>
+            </select>
+          </label>
+          <label>
+            Filter:
+            <select 
+              id=""
+              value={fill}
+              onChange={(e) => setFill(e.target.value)}
+            >
+              <option value="all">Select By</option>
+              <option value="width">Width greater 500</option>
+              <option value="height">Height greater 500</option>
+            </select>
+          </label>
+        </div>
+
+        <div id="data">
+          {loading && <h1>Loading...</h1>}
+          {error && <h1>Data Not Found</h1>}
+          {data.map((item, index) => (
+            <div key={index} id="inside-data">
+              <img src={item.url} alt="" style={{width:"250px",height:"250px"}} />
+              <p>{item.name}</p>
+            </div>
+          ))}
+        </div>
+      </>
+    );
+  }
+
+  function App() {
+    return <MemeExplorer />;
+  }
+  let root = ReactDOM.createRoot(document.getElementById("root")).render(
+    <App />
+  );
+</script>

@@ -20,4 +20,4 @@ export default function reducer(state=intial,action){
             return state
 
     }
-}s
+}

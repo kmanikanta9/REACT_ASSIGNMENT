@@ -1,6 +1,6 @@
 import {useSelector,useDispatch} from 'react-redux'
-import Add from './Add'
 import { COMPLETE, DELETE } from '../redux/action'
+import Add from './todoAdd'
 
 export default function Todo(){
     
@@ -14,7 +14,7 @@ export default function Todo(){
     return(
         <>
             <h1>Add Tasks</h1>
-            <Add />
+            <Add/>
             {data && data.map((e,i)=>(
                 <div key={i}>
                     <li onClick={()=>{complete(e.id)}} style={{textDecoration:(e.status)?"line-through":"none"}}>{e.title}
